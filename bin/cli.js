@@ -11,6 +11,13 @@ import aio from '../src/modules/aio/index.js';
 import autoInjector from '../src/modules/auto-injector/index.js';
 import agentLightning from '../src/modules/agent-lightning/index.js';
 import aiVisibility from '../src/modules/ai-visibility/index.js';
+import socialMedia from '../src/modules/social-media/index.js';
+import mediaOptimizer from '../src/modules/media-optimizer/index.js';
+import i18n from '../src/modules/i18n/index.js';
+import amp from '../src/modules/amp/index.js';
+import pwa from '../src/modules/pwa/index.js';
+import voiceSeo from '../src/modules/voice-seo/index.js';
+import performanceBenchmark from '../src/modules/performance-benchmark/index.js';
 
 const program = new Command();
 
@@ -272,6 +279,186 @@ visibilityCommand
   .argument('<url>', 'URL')
   .action(async (url) => {
     await aiVisibility.optimize(url);
+  });
+
+// 소셜 미디어 명령어
+const socialMediaCommand = program.command('social');
+socialMediaCommand
+  .command('analyze')
+  .description('소셜 미디어 최적화 분석')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await socialMedia.analyze(url);
+  });
+
+socialMediaCommand
+  .command('generate')
+  .description('소셜 미디어 태그 생성')
+  .option('-t, --title <title>', '제목')
+  .option('-d, --description <description>', '설명')
+  .option('-i, --image <image>', '이미지 URL')
+  .option('-u, --url <url>', 'URL')
+  .action(async (options) => {
+    await socialMedia.generateTags({
+      title: options.title,
+      description: options.description,
+      image: options.image,
+      url: options.url
+    });
+  });
+
+// 미디어 최적화 명령어
+const mediaCommand = program.command('media');
+mediaCommand
+  .command('analyze')
+  .description('미디어 최적화 분석')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await mediaOptimizer.analyze(url);
+  });
+
+mediaCommand
+  .command('optimize-image')
+  .description('이미지 최적화')
+  .argument('<imagePath>', '이미지 경로')
+  .option('-f, --format <format>', '포맷 (webp, avif)', 'webp')
+  .action(async (imagePath, options) => {
+    await mediaOptimizer.optimizeImage(imagePath, { format: options.format });
+  });
+
+mediaCommand
+  .command('generate-alt')
+  .description('AI 기반 Alt 텍스트 생성')
+  .argument('<imagePath>', '이미지 경로')
+  .action(async (imagePath) => {
+    await mediaOptimizer.generateAltText(imagePath);
+  });
+
+// 다국어 명령어
+const i18nCommand = program.command('i18n');
+i18nCommand
+  .command('analyze')
+  .description('다국어 최적화 분석')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await i18n.analyze(url);
+  });
+
+i18nCommand
+  .command('generate-hreflang')
+  .description('hreflang 태그 생성')
+  .action(async () => {
+    const config = await i18n.loadConfig();
+    await i18n.generateHreflangTags(config);
+  });
+
+i18nCommand
+  .command('generate-sitemap')
+  .description('다국어 Sitemap 생성')
+  .option('-u, --urls <urls...>', 'URL 목록')
+  .action(async (options) => {
+    const config = await i18n.loadConfig();
+    const urls = (options.urls || []).map(url => ({ url, baseUrl: 'https://example.com', path: url }));
+    await i18n.generateMultilingualSitemap(urls, config);
+  });
+
+// AMP 명령어
+const ampCommand = program.command('amp');
+ampCommand
+  .command('analyze')
+  .description('AMP 최적화 분석')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await amp.analyze(url);
+  });
+
+ampCommand
+  .command('generate')
+  .description('AMP 페이지 생성')
+  .option('-t, --title <title>', '제목')
+  .option('-c, --content <content>', '콘텐츠')
+  .option('-f, --filename <filename>', '파일명', 'index')
+  .action(async (options) => {
+    await amp.generateAMP(options.content || '', {
+      title: options.title,
+      filename: options.filename
+    });
+  });
+
+ampCommand
+  .command('validate')
+  .description('AMP 페이지 검증')
+  .argument('<ampFilePath>', 'AMP 파일 경로')
+  .action(async (ampFilePath) => {
+    await amp.validateAMPFile(ampFilePath);
+  });
+
+// PWA 명령어
+const pwaCommand = program.command('pwa');
+pwaCommand
+  .command('analyze')
+  .description('PWA 최적화 분석')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await pwa.analyze(url);
+  });
+
+pwaCommand
+  .command('generate-manifest')
+  .description('Manifest.json 생성')
+  .option('-n, --name <name>', '앱 이름')
+  .option('-s, --short-name <shortName>', '짧은 이름')
+  .option('-d, --description <description>', '설명')
+  .action(async (options) => {
+    await pwa.generateManifest({
+      name: options.name,
+      shortName: options.shortName,
+      description: options.description
+    });
+  });
+
+pwaCommand
+  .command('generate-sw')
+  .description('Service Worker 생성')
+  .option('-c, --cache-name <cacheName>', '캐시 이름', 'app-cache-v1')
+  .action(async (options) => {
+    await pwa.generateServiceWorker({ cacheName: options.cacheName });
+  });
+
+// 음성 검색 명령어
+const voiceCommand = program.command('voice');
+voiceCommand
+  .command('analyze')
+  .description('음성 검색 최적화 분석')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await voiceSeo.analyze(url);
+  });
+
+voiceCommand
+  .command('generate-content')
+  .description('음성 검색 최적화 콘텐츠 생성')
+  .argument('<topic>', '주제')
+  .action(async (topic) => {
+    await voiceSeo.generateVoiceOptimizedContent(topic);
+  });
+
+// 성능 벤치마킹 명령어
+const benchmarkCommand = program.command('benchmark');
+benchmarkCommand
+  .command('analyze')
+  .description('성능 벤치마킹 분석')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await performanceBenchmark.analyze(url);
+  });
+
+benchmarkCommand
+  .command('set-baseline')
+  .description('성능 기준선 설정')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    await performanceBenchmark.setBaseline(url);
   });
 
 // 초기화 명령어
