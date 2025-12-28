@@ -18,6 +18,8 @@ import amp from '../src/modules/amp/index.js';
 import pwa from '../src/modules/pwa/index.js';
 import voiceSeo from '../src/modules/voice-seo/index.js';
 import performanceBenchmark from '../src/modules/performance-benchmark/index.js';
+import batchProcessor from '../src/modules/batch-processor/index.js';
+import notification from '../src/modules/notification/index.js';
 
 const program = new Command();
 
@@ -459,6 +461,86 @@ benchmarkCommand
   .argument('<url>', 'URL')
   .action(async (url) => {
     await performanceBenchmark.setBaseline(url);
+  });
+
+// 배치 처리 명령어
+const batchCommand = program.command('batch');
+batchCommand
+  .command('process')
+  .description('배치 처리 실행')
+  .argument('<filePath>', 'URL 파일 경로 (CSV/JSON/TXT)')
+  .action(async (filePath) => {
+    await batchProcessor.processFromFile(filePath);
+  });
+
+batchCommand
+  .command('schedule')
+  .description('스케줄 작업 등록')
+  .argument('<cronExpression>', 'Cron 표현식')
+  .argument('<filePath>', 'URL 파일 경로')
+  .action(async (cronExpression, filePath) => {
+    await batchProcessor.scheduleJob(cronExpression, filePath);
+  });
+
+batchCommand
+  .command('status')
+  .description('작업 상태 확인')
+  .argument('[jobId]', '작업 ID')
+  .action(async (jobId) => {
+    if (jobId) {
+      const job = await batchProcessor.getJobStatus(jobId);
+      if (job) {
+        console.log(chalk.blue(`\n작업 상태: ${job.status}`));
+        console.log(chalk.blue(`완료: ${job.completed}/${job.total}`));
+        console.log(chalk.blue(`실패: ${job.failed}/${job.total}\n`));
+      } else {
+        console.log(chalk.red(`작업을 찾을 수 없습니다: ${jobId}`));
+      }
+    } else {
+      const jobs = await batchProcessor.listJobs();
+      console.log(chalk.blue(`\n총 ${jobs.length}개 작업\n`));
+      jobs.forEach(job => {
+        console.log(`  ${job.id}: ${job.status} (${job.completed}/${job.total})`);
+      });
+      console.log();
+    }
+  });
+
+// 알림 명령어
+const notifyCommand = program.command('notify');
+notifyCommand
+  .command('send')
+  .description('알림 전송')
+  .option('-t, --type <type>', '알림 타입 (email, slack, discord, all)', 'all')
+  .option('-s, --subject <subject>', '제목')
+  .option('-m, --message <message>', '메시지')
+  .action(async (options) => {
+    if (!options.subject || !options.message) {
+      console.error(chalk.red('제목과 메시지가 필요합니다.'));
+      return;
+    }
+    await notification.sendNotification(options.type, options.subject, options.message);
+  });
+
+notifyCommand
+  .command('daily-report')
+  .description('일일 리포트 전송')
+  .argument('<url>', 'URL')
+  .action(async (url) => {
+    // 메트릭 가져오기
+    const { default: aioModule } = await import('../src/modules/aio/index.js');
+    const analysis = await aioModule.comprehensiveAnalysis(url);
+    await notification.sendDailyReport(url, analysis.scores);
+  });
+
+// API 서버 명령어
+program
+  .command('api:start')
+  .description('API 서버 시작')
+  .option('-p, --port <port>', '포트 번호', '3000')
+  .action(async (options) => {
+    process.env.PORT = options.port;
+    await import('../api/server.js');
   });
 
 // 초기화 명령어

@@ -17,4 +17,6 @@ export { default as amp } from './modules/amp/index.js';
 export { default as pwa } from './modules/pwa/index.js';
 export { default as voiceSeo } from './modules/voice-seo/index.js';
 export { default as performanceBenchmark } from './modules/performance-benchmark/index.js';
+export { default as batchProcessor } from './modules/batch-processor/index.js';
+export { default as notification } from './modules/notification/index.js';
 
