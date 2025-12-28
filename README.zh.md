@@ -2,8 +2,7 @@
 
 基于AI的搜索引擎和生成式AI引擎优化集成解决方案
 
-![Uploading title img.png…]()
-
+<img width="2752" height="1536" alt="title img" src="https://github.com/user-attachments/assets/49871472-c902-4427-858d-1f59c3149469" />
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
