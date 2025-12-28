@@ -320,6 +320,7 @@ This is an open-source project that anyone can use, modify, and distribute freel
 **Park chunghyo**
 
 - GitHub: [@saewookkangboy](https://github.com/saewookkangboy)
+- 모듈 및 패키지 개발은 Cursor AI로 진행되었습니다
 
 ## 스타
 
