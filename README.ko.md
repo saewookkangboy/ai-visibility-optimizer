@@ -8,14 +8,9 @@ AI 기반 검색 엔진 및 생성형 AI 엔진 최적화 통합 솔루션
 > **오픈소스 프로젝트**: 이 프로젝트는 누구나 자유롭게 사용, 수정 및 배포할 수 있는 오픈소스 프로젝트입니다.  
 > **Open Source Project**: This is an open-source project that anyone can use, modify, and distribute freely.
 
-## 언어 선택 / Language Selection / 语言选择 / Selección de idioma
+## 언어 선택 / Language Selection
 
-- 🇰🇷 [한국어 (Korean)](README.ko.md)
-- 🇺🇸 [English](README.en.md)
-- 🇨🇳 [中文 (Chinese)](README.zh.md)
-- 🇪🇸 [Español (Spanish)](README.es.md)
-
----
+- [한국어 (Korean)](README.ko.md) | [English](README.en.md) | [中文 (Chinese)](README.zh.md) | [Español (Spanish)](README.es.md)
 
 ## 개요
 
