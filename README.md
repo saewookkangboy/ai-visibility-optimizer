@@ -1,6 +1,11 @@
+
+
 # AI Visibility Optimizer
 
 AI 기반 검색 엔진 및 생성형 AI 엔진 최적화 통합 솔루션
+
+<img width="2752" height="1536" alt="title img" src="https://github.com/user-attachments/assets/56c313ae-cdce-449d-8e7d-9a027cfa1c47" />
+
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
