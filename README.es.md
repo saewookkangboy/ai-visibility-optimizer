@@ -2,6 +2,8 @@
 
 Solución integrada de optimización de motores de búsqueda y motores de IA generativa basada en IA
 
+<img width="2752" height="1536" alt="title img" src="https://github.com/user-attachments/assets/17e14e8b-5942-4c41-8219-08a05ab83663" />
+
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Node.js Version](https://img.shields.io/badge/node-%3E%3D18.0.0-brightgreen)](https://nodejs.org/)
 
