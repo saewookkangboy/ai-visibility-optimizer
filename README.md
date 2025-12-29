@@ -306,8 +306,6 @@ ai-visibility lightning train --schedule daily
 
 ## 라이선스
 
-MIT License
-
 Copyright (c) 2025 Park chunghyo
 
 이 프로젝트는 누구나 자유롭게 사용, 수정 및 배포할 수 있는 오픈소스 프로젝트입니다.  
